@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Understanding Society Fellowship — Interactive Timeline</title>
+<style>
+:root{
+  --bg:#f6f8fb;
+  --paper:#ffffff;
+  --ink:#172033;
+  --muted:#657089;
+  --line:#dfe5ee;
+  --main:#315f8c;
+  --main2:#5a83aa;
+  --ip:#7b5a9d;
+  --ip2:#9d82b6;
+  --accent:#b56545;
+  --green:#5f7f69;
+  --soft-main:#eaf1f7;
+  --soft-ip:#f1ecf6;
+  --soft-accent:#f7ede8;
+  --shadow:0 14px 40px rgba(21,35,56,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(49,95,140,.08), transparent 30rem),
+    radial-gradient(circle at top right, rgba(123,90,157,.07), transparent 28rem),
+    var(--bg);
+}
+button{font:inherit}
+.page{
+  width:min(1220px, calc(100% - 32px));
+  margin:28px auto 56px;
+}
+.hero{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:18px;
+}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:.72rem;
+  font-weight:800;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+h1{
+  margin:0;
+  font-size:clamp(1.75rem,4vw,3rem);
+  line-height:1.04;
+  letter-spacing:-.035em;
+}
+.sub{
+  margin:10px 0 0;
+  color:var(--muted);
+  max-width:760px;
+  line-height:1.55;
+}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.action{
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink);
+  border-radius:10px;
+  padding:9px 12px;
+  cursor:pointer;
+}
+.action:hover{border-color:#bcc7d6;background:#fbfcfe}
+.legend{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin:16px 0 14px;
+  color:var(--muted);
+  font-size:.88rem;
+}
+.legend span{display:flex;align-items:center;gap:7px}
+.dot{width:10px;height:10px;border-radius:99px;display:inline-block}
+.timeline-shell{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.timeline-scroll{overflow-x:auto;padding:20px 20px 14px}
+.timeline{
+  min-width:1020px;
+  display:grid;
+  grid-template-columns:160px repeat(12, minmax(64px,1fr));
+  grid-auto-rows:minmax(52px,auto);
+  column-gap:6px;
+  row-gap:8px;
+  align-items:center;
+}
+.year{
+  align-self:end;
+  text-align:center;
+  color:var(--muted);
+  font-size:.75rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--line);
+  padding-bottom:7px;
+}
+.month{
+  text-align:center;
+  font-size:.76rem;
+  color:var(--muted);
+  padding-bottom:4px;
+}
+.row-label{
+  padding-right:12px;
+  min-width:0;
+}
+.obj{
+  font-size:.9rem;
+  font-weight:800;
+}
+.obj small{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:.72rem;
+  line-height:1.25;
+  font-weight:600;
+}
+.bar{
+  border:0;
+  border-radius:11px;
+  min-height:46px;
+  padding:8px 12px;
+  text-align:left;
+  cursor:pointer;
+  color:var(--ink);
+  font-weight:750;
+  line-height:1.2;
+  transition:transform .16s ease, box-shadow .16s ease, filter .16s ease;
+  position:relative;
+}
+.bar:hover,.bar:focus-visible{
+  transform:translateY(-1px);
+  box-shadow:0 6px 18px rgba(22,34,52,.12);
+  outline:none;
+  filter:saturate(1.05);
+}
+.bar[aria-pressed="true"]{
+  outline:3px solid rgba(181,101,69,.28);
+  outline-offset:2px;
+}
+.bar.main{background:var(--soft-main);border-left:5px solid var(--main)}
+.bar.main.alt{border-left-color:var(--main2)}
+.bar.ip{background:var(--soft-ip);border-left:5px solid var(--ip)}
+.bar.ip.alt{border-left-color:var(--ip2)}
+.milestones{
+  min-width:1020px;
+  margin-top:16px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:160px repeat(12,minmax(64px,1fr));
+  column-gap:6px;
+  align-items:start;
+}
+.milestone-label{
+  font-size:.78rem;
+  color:var(--muted);
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  padding-top:3px;
+}
+.mark{
+  position:relative;
+  text-align:center;
+  cursor:pointer;
+  background:transparent;
+  border:0;
+  color:var(--ink);
+  padding:0 3px 8px;
+}
+.mark::before{
+  content:"";
+  width:12px;height:12px;
+  border-radius:50%;
+  background:var(--accent);
+  display:block;
+  margin:0 auto 6px;
+  box-shadow:0 0 0 4px var(--soft-accent);
+}
+.mark:hover span,.mark:focus-visible span{text-decoration:underline}
+.mark:focus-visible{outline:2px solid rgba(181,101,69,.35);outline-offset:2px;border-radius:8px}
+.mark span{
+  display:block;
+  font-size:.73rem;
+  font-weight:800;
+  line-height:1.25;
+}
+.mark em{
+  display:block;
+  font-size:.68rem;
+  font-style:normal;
+  color:var(--muted);
+  margin-top:2px;
+}
+.detail{
+  margin-top:18px;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,1.95fr);
+  gap:18px;
+}
+.detail-head,.detail-body{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 9px 28px rgba(21,35,56,.06);
+}
+.detail-head{padding:20px}
+.detail-kicker{
+  font-size:.72rem;
+  font-weight:850;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+.detail-head h2{
+  margin:5px 0 8px;
+  font-size:1.35rem;
+  line-height:1.15;
+}
+.period{color:var(--muted);font-size:.9rem}
+.detail-body{
+  padding:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.info{
+  background:#fbfcfe;
+  border:1px solid #e9edf3;
+  border-radius:12px;
+  padding:14px;
+}
+.info.wide{grid-column:1/-1}
+.info h3{
+  margin:0 0 7px;
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+}
+.info p{
+  margin:0;
+  font-size:.93rem;
+  line-height:1.55;
+}
+.empty{
+  color:var(--muted);
+  line-height:1.6;
+}
+.footer-note{
+  margin:16px 2px 0;
+  color:var(--muted);
+  font-size:.8rem;
+  line-height:1.5;
+}
+@media (max-width:800px){
+  .page{width:min(100% - 20px,1220px);margin-top:18px}
+  .hero{display:block}
+  .actions{margin-top:14px}
+  .detail{grid-template-columns:1fr}
+  .detail-body{grid-template-columns:1fr}
+  .info.wide{grid-column:auto}
+}
+@media print{
+  body{background:#fff}
+  .page{width:100%;margin:0}
+  .actions{display:none}
+  .timeline-shell,.detail-head,.detail-body{box-shadow:none}
+  .timeline-scroll{overflow:visible}
+  .timeline,.milestones{min-width:0}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Understanding Society Research Data Fellowship — Francesca Tirotto</div>
+      <h1> Environmental Lifestyles Across the Life Course: project timeline</h1>
+      <p class="sub">1 October 2026 – 30 September 2027. Click an objective or milestone to see the research question, data, analysis, method, and the planned output.</p>
+    </div>
+    <div class="actions">
+      <button class="action" id="showO1" type="button">Main Survey</button>
+      <button class="action" id="showO2" type="button">Innovation Panel</button>
+      <button class="action" id="showAll" type="button">Show all</button>
+      <button class="action" id="printBtn" type="button">Print / Save PDF</button>
+    </div>
+  </header>
+
+  <div class="legend" aria-label="Legend">
+    <span><i class="dot" style="background:var(--main)"></i>Main Survey objectives</span>
+    <span><i class="dot" style="background:var(--ip)"></i>Innovation Panel validation</span>
+    <span><i class="dot" style="background:var(--accent)"></i>Milestones / dissemination</span>
+  </div>
+
+  <section class="timeline-shell" aria-label="Project timeline">
+    <div class="timeline-scroll">
+      <div class="timeline">
+        <div></div>
+        <div class="year" style="grid-column:2/5">2026</div>
+        <div class="year" style="grid-column:5/14">2027</div>
+
+        <div></div>
+        <div class="month">Oct</div><div class="month">Nov</div><div class="month">Dec</div>
+        <div class="month">Jan</div><div class="month">Feb</div><div class="month">Mar</div>
+        <div class="month">Apr</div><div class="month">May</div><div class="month">Jun</div>
+        <div class="month">Jul</div><div class="month">Aug</div><div class="month">Sep</div>
+
+        <div class="row-label main-row"><div class="obj">O1a<small>Prediction</small></div></div>
+        <button class="bar main main-row" style="grid-column:2/8" data-id="o1a" aria-pressed="false">What predicts environmental behaviour?</button>
+
+        <div class="row-label main-row"><div class="obj">O1b<small>Environmental profiles</small></div></div>
+        <button class="bar main alt main-row" style="grid-column:2/8" data-id="o1b" aria-pressed="false">Environmental lifestyle profiles</button>
+
+        <div class="row-label main-row"><div class="obj">O1c<small>Life course</small></div></div>
+        <button class="bar main main-row" style="grid-column:4/8" data-id="o1c" aria-pressed="false">Life-course trajectories</button>
+
+        <div class="row-label main-row"><div class="obj">O1d<small>Structural profiles</small></div></div>
+        <button class="bar main alt main-row" style="grid-column:5/11" data-id="o1d" aria-pressed="false">Life-course + structural profiles</button>
+
+        <div class="row-label main-row"><div class="obj">O1e<small>Associations</small></div></div>
+        <button class="bar main main-row" style="grid-column:8/11" data-id="o1e" aria-pressed="false">Profiles → lifestyles & behaviours</button>
+
+        <div class="row-label ip-row"><div class="obj">O2a<small>Energy validation</small></div></div>
+        <button class="bar ip ip-row" style="grid-column:8/14" data-id="o2a" aria-pressed="false">Measured electricity & gas use</button>
+
+        <div class="row-label ip-row"><div class="obj">O2b<small>Sensor validation</small></div></div>
+        <button class="bar ip alt ip-row" style="grid-column:10/14" data-id="o2b" aria-pressed="false">Indoor sensor outcomes</button>
+      </div>
+
+      <div class="milestones">
+        <div class="milestone-label">Milestones</div>
+        <button class="mark" style="grid-column:2" data-id="start"><span>1 Oct 2026</span><em>Start</em></button>
+        <button class="mark" style="grid-column:4" data-id="m3"><span>31 Dec 2026</span><em>Month 3</em></button>
+        <button class="mark" style="grid-column:7" data-id="m6"><span>31 Mar 2027</span><em>Month 6</em></button>
+        <button class="mark" style="grid-column:10" data-id="icep"><span>20–23 Jun</span><em>ICEP</em></button>
+        <button class="mark" style="grid-column:10; transform:translateY(54px)" data-id="m9"><span>30 Jun 2027</span><em>Month 9</em></button>
+        <button class="mark" style="grid-column:13" data-id="m12"><span>30 Sep 2027</span><em>Final</em></button>
+      </div>
+      <div style="height:52px"></div>
+    </div>
+  </section>
+
+  <section class="detail" aria-live="polite">
+    <div class="detail-head">
+      <div class="detail-kicker" id="detailType">Explore the timeline</div>
+      <h2 id="detailTitle">Select an objective or milestone</h2>
+      <div class="period" id="detailPeriod">The details will appear here.</div>
+    </div>
+    <div class="detail-body" id="detailBody">
+      <div class="empty">For each objective, you can see the research question, data, analysis, the advantage of the method, and the planned deliverable.</div>
+    </div>
+  </section>
+
+  <p class="footer-note">Indicative analysis windows are shown to make the workflow visible. Formal programme deliverables are anchored to the 3-, 6-, 9- and 12-month milestones.</p>
+</main>
+
+<script>
+const DATA = {
+  o1a:{
+    type:"Objective O1a · Main Survey", title:"Predict current environmental behaviour", period:"1 Oct 2026 – 31 Mar 2027",
+    rq:"Which psychological, sociodemographic, household and structural factors best predict current self-reported environmental behaviours?",
+    data:"Understanding Society Main Survey, Wave 15.",
+    analysis:"Use exploratory prediction models such as XGBoost with cross-validation. Use SHAP values to identify the strongest predictors, then examine selected relationships with regression models.",
+    why:"XGBoost can capture complex and non-linear relationships; SHAP helps explain which predictors matter most; regression provides clearer, interpretable estimates.",
+    output:"Initial prediction models by 31 Dec 2026; final analyses included in the Month 6 working report."
+  },
+  o1b:{
+    type:"Objective O1b · Main Survey", title:"Identify environmental lifestyle profiles", period:"1 Oct 2026 – 31 Mar 2027",
+    rq:"Are there distinct groups of people with different combinations of environmental identity, concern, responsibility, efficacy and perceived constraints?",
+    data:"Wave 15 environmental module.",
+    analysis:"Estimate latent class / latent profile models. Compare candidate solutions using fit statistics, entropy, class size and interpretability.",
+    why:"A person-centred approach identifies meaningful combinations of characteristics instead of examining each attitude separately.",
+    output:"Initial profile solution by 31 Dec 2026; final environmental lifestyle profiles by 31 Mar 2027."
+  },
+  o1c:{
+    type:"Objective O1c · Main Survey", title:"Summarise life-course trajectories", period:"Indicative working window: Dec 2026 – 31 Mar 2027",
+    rq:"What longer-term pathways characterise people’s circumstances across work, income, housing, family, mobility, health and wellbeing?",
+    data:"Main Survey Waves 1–14, plus earlier environmental attitudes and behaviours where available.",
+    analysis:"Use growth models for continuous repeated measures and stability/change categories, transition indicators or sequence-type summaries for categorical domains.",
+    why:"This captures longer-term patterns, stability and change rather than relying only on current circumstances.",
+    output:"Life-course trajectory measures completed and described in the Month 6 working report."
+  },
+  o1d:{
+    type:"Objective O1d · Main Survey", title:"Create life-course and structural profiles", period:"Indicative working window: Jan – 30 Jun 2027",
+    rq:"Can longer-term trajectories and current socioeconomic, household, structural and place-based conditions be combined into meaningful profiles?",
+    data:"Waves 1–15: trajectory indicators from O1c plus current sociodemographic, household, structural and place-based indicators.",
+    analysis:"Use finite mixture / latent class models appropriate to the indicator types.",
+    why:"This captures how multiple life-course and structural conditions cluster together, rather than treating each constraint separately.",
+    output:"Initial profile solution by 31 Mar 2027; final Main Survey life-course/structural profile solution by 30 Jun 2027."
+  },
+  o1e:{
+    type:"Objective O1e · Main Survey", title:"Link structural profiles to environmental lifestyles and behaviours", period:"Indicative working window: 1 Apr – 30 Jun 2027",
+    rq:"How are life-course and structural profiles related to environmental lifestyle profiles and self-reported environmental behaviours?",
+    data:"Main Survey profile memberships and environmental behavioural outcomes.",
+    analysis:"Use multinomial logistic regression for environmental lifestyle profile membership, plus regression models appropriate to each behavioural outcome.",
+    why:"These models provide clear, interpretable estimates of how different life-course/structural profiles are associated with environmental lifestyles and actions.",
+    output:"Association models completed by 30 Jun 2027 and incorporated into the Main Survey paper."
+  },
+  o2a:{
+    type:"Objective O2a · Innovation Panel", title:"Validate profiles using measured electricity and gas use", period:"Indicative working window: 1 Apr – 30 Sep 2027",
+    rq:"Are the same life-course and structural profiles associated with objectively measured household electricity and gas use?",
+    data:"Innovation Panel Waves 3–16 for equivalent prior life-course and structural indicators, with IP17 used for measured electricity and gas outcomes.",
+    analysis:"Apply the Main Survey life-course/structural profile structure to the Innovation Panel, then model measured energy use. Use spline terms or GAMs where non-linearity and daily/seasonal patterns need to be captured.",
+    why:"This provides external validation using objective household outcomes rather than self-report alone.",
+    output:"Initial smart-meter analyses by 30 Jun 2027; final external validation analyses and draft manuscript/working paper by 30 Sep 2027."
+  },
+  o2b:{
+    type:"Objective O2b · Innovation Panel", title:"Validate profiles using in-home sensor outcomes", period:"Indicative working window: Jun – 30 Sep 2027",
+    rq:"Are life-course and structural profiles associated with objectively measured indoor environmental conditions?",
+    data:"IP17 temperature, humidity, particulate matter (PM), CO₂ and VOC sensor data, where available.",
+    analysis:"Use regression models and GAMs to compare profiles and capture non-linear daily and seasonal patterns in indoor conditions.",
+    why:"Sensor data provide an objective view of the conditions households actually experience, while GAMs flexibly model temporal patterns.",
+    output:"Final sensor analyses included in the Innovation Panel manuscript / working paper by 30 Sep 2027."
+  },
+  start:{
+    type:"Programme milestone", title:"Fellowship starts", period:"1 October 2026",
+    rq:"What begins here?", data:"Wave 15 environmental measures and Waves 1–14 longitudinal history.",
+    analysis:"Data preparation, harmonisation, sample definition, missing-data checks and weighting strategy.",
+    why:"This creates a consistent analytical base before modelling begins.",
+    output:"Start of the 12-month fellowship."
+  },
+  m3:{
+    type:"Programme milestone", title:"Month 3 · Data preparation and profile estimation", period:"31 December 2026",
+    rq:"What should be ready after the first three months?",
+    data:"Wave 15 environmental variables harmonised; Waves 1–14 measures identified; sample selection, attrition, missing-data and weights prepared.",
+    analysis:"Initial O1a prediction models and initial O1b latent class/profile models.",
+    why:"This tests the core variables and early profile structure before the longitudinal stages are built.",
+    output:"Draft methods section and preliminary results for prediction analyses and the environmental lifestyle profile solution."
+  },
+  m6:{
+    type:"Programme milestone", title:"Month 6 · Environmental profiles and life-course pathways", period:"31 March 2027",
+    rq:"What should be complete halfway through the fellowship?",
+    data:"Main Survey environmental, longitudinal, socioeconomic, household, structural and place-based indicators.",
+    analysis:"O1a and O1b finalised; O1c trajectories constructed; initial O1d life-course/structural profile solution estimated.",
+    why:"This completes the core Main Survey building blocks before testing associations and moving to external validation.",
+    output:"Working report submitted to Understanding Society covering analyses, profile construction, methods, sample selection and plans for the second six months."
+  },
+  icep:{
+    type:"Dissemination milestone", title:"International Conference on Environmental Psychology (ICEP)", period:"20–23 June 2027 · Wrocław",
+    rq:"What will be presented?",
+    data:"Interim findings from the project. The application does not specify exactly which analyses will be presented; this will depend on progress by the conference date.",
+    analysis:"The presentation will draw on analyses completed by the conference date; the application commits to presenting interim findings rather than a fixed subset of analyses.",
+    why:"Provides academic feedback before final papers and dissemination outputs are completed.",
+    output:"Interim findings presented at ICEP."
+  },
+  m9:{
+    type:"Programme milestone", title:"Month 9 · Profile associations and measured household outcomes", period:"30 June 2027",
+    rq:"What should be complete by Month 9?",
+    data:"Main Survey associations plus equivalent Innovation Panel life-course, household, structural and place-based indicators.",
+    analysis:"O1d finalised; O1e association models completed; Main Survey profile structure applied to the Innovation Panel; initial O2a smart-meter analyses.",
+    why:"This is the bridge from the Main Survey profiling work to objective household validation.",
+    output:"Main Survey association results, initial IP17 energy analyses, documented R code for Paper 1, and interim conference presentation."
+  },
+  m12:{
+    type:"Programme milestone", title:"Month 12 · Completion and dissemination", period:"30 September 2027",
+    rq:"What will the fellowship deliver by completion?",
+    data:"Completed Main Survey and Innovation Panel analyses, including measured electricity/gas use and exploratory sensor outcomes.",
+    analysis:"Final O2a/O2b validation analyses, robustness checks and synthesis across objectives.",
+    why:"This brings psychological engagement, life-course pathways, structural conditions and objective household outcomes into one coherent evidence base.",
+    output:"Main Survey paper submitted; draft Innovation Panel manuscript/working paper; documented R code; methodological report; Understanding Society blog/podcast; CAST webinar; draft policy-facing briefing."
+  }
+};
+
+const detailType = document.getElementById("detailType");
+const detailTitle = document.getElementById("detailTitle");
+const detailPeriod = document.getElementById("detailPeriod");
+const detailBody = document.getElementById("detailBody");
+const clickable = [...document.querySelectorAll("[data-id]")];
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function box(title,text,wide=false){
+  return `<div class="info${wide ? " wide":""}"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`;
+}
+function select(id){
+  const d=DATA[id];
+  if(!d) return;
+  clickable.forEach(el=>{
+    if(el.classList.contains("bar")) el.setAttribute("aria-pressed", el.dataset.id===id ? "true":"false");
+  });
+  detailType.textContent=d.type;
+  detailTitle.textContent=d.title;
+  detailPeriod.textContent=d.period;
+  detailBody.innerHTML=
+    box("Research question",d.rq)+
+    box("Data",d.data)+
+    box("Analysis",d.analysis)+
+    box("Why this approach?",d.why)+
+    box("Output / deliverable",d.output,true);
+  if(window.innerWidth<720){
+    document.querySelector(".detail").scrollIntoView({behavior:"smooth",block:"start"});
+  }
+}
+clickable.forEach(el=>el.addEventListener("click",()=>select(el.dataset.id)));
+
+function setRows(which){
+  const mains=[...document.querySelectorAll(".main-row")];
+  const ips=[...document.querySelectorAll(".ip-row")];
+  mains.forEach(x=>x.style.display=(which==="ip"?"none":""));
+  ips.forEach(x=>x.style.display=(which==="main"?"none":""));
+}
+document.getElementById("showO1").addEventListener("click",()=>setRows("main"));
+document.getElementById("showO2").addEventListener("click",()=>setRows("ip"));
+document.getElementById("showAll").addEventListener("click",()=>setRows("all"));
+document.getElementById("printBtn").addEventListener("click",()=>window.print());
+
+select("o1a");
+</script>
+</body>
+</html>
