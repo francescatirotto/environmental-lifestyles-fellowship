@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Understanding Society Fellowship — Interactive Timeline</title>
+<title>Environmental Lifestyles Across the Life Course: project timeline — Francesca Tirotto</title>
 <style>
 :root{
   --bg:#f6f8fb;
@@ -216,6 +216,7 @@ h1{
 }
 .detail{
   margin-top:18px;
+  scroll-margin-top:24px;
   display:grid;
   grid-template-columns:minmax(0,1.05fr) minmax(0,1.95fr);
   gap:18px;
@@ -298,8 +299,8 @@ h1{
   <header class="hero">
     <div>
       <div class="eyebrow">Understanding Society Research Data Fellowship — Francesca Tirotto</div>
-      <h1> Environmental Lifestyles Across the Life Course: project timeline</h1>
-      <p class="sub">1 October 2026 – 30 September 2027. Click an objective or milestone to see the research question, data, analysis, method, and the planned output.</p>
+      <h1>Environmental Lifestyles Across the Life Course: project timeline</h1>
+      <p class="sub">1 October 2026 – 30 September 2027. Click an objective or milestone to see the research question, data, analysis, why the method is useful, and the planned output.</p>
     </div>
     <div class="actions">
       <button class="action" id="showO1" type="button">Main Survey</button>
@@ -496,12 +497,16 @@ function esc(s){
 function box(title,text,wide=false){
   return `<div class="info${wide ? " wide":""}"><h3>${esc(title)}</h3><p>${esc(text)}</p></div>`;
 }
-function select(id){
+function select(id, shouldScroll=true){
   const d=DATA[id];
   if(!d) return;
+
   clickable.forEach(el=>{
-    if(el.classList.contains("bar")) el.setAttribute("aria-pressed", el.dataset.id===id ? "true":"false");
+    if(el.classList.contains("bar")){
+      el.setAttribute("aria-pressed", el.dataset.id===id ? "true":"false");
+    }
   });
+
   detailType.textContent=d.type;
   detailTitle.textContent=d.title;
   detailPeriod.textContent=d.period;
@@ -511,11 +516,20 @@ function select(id){
     box("Analysis",d.analysis)+
     box("Why this approach?",d.why)+
     box("Output / deliverable",d.output,true);
-  if(window.innerWidth<720){
-    document.querySelector(".detail").scrollIntoView({behavior:"smooth",block:"start"});
+
+  if(shouldScroll){
+    requestAnimationFrame(()=>{
+      document.querySelector(".detail").scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+    });
   }
 }
-clickable.forEach(el=>el.addEventListener("click",()=>select(el.dataset.id)));
+
+clickable.forEach(el=>{
+  el.addEventListener("click",()=>select(el.dataset.id, true));
+});
 
 function setRows(which){
   const mains=[...document.querySelectorAll(".main-row")];
@@ -528,7 +542,7 @@ document.getElementById("showO2").addEventListener("click",()=>setRows("ip"));
 document.getElementById("showAll").addEventListener("click",()=>setRows("all"));
 document.getElementById("printBtn").addEventListener("click",()=>window.print());
 
-select("o1a");
+select("o1a", false);
 </script>
 </body>
 </html>
