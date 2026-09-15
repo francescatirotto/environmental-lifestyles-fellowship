@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Environmental Lifestyles Across the Life Course: project timeline — Francesca Tirotto</title>
+<title>Environmental Lifestyles Across the Life Course: project timeline</title>
 <style>
 :root{
   --bg:#f6f8fb;
@@ -46,8 +46,8 @@ button{font:inherit}
   margin-bottom:18px;
 }
 .eyebrow{
-  text-transform:uppercase;
-  letter-spacing:.12em;
+  text-transform:none;
+  letter-spacing:.045em;
   font-size:.72rem;
   font-weight:800;
   color:var(--muted);
@@ -97,7 +97,7 @@ h1{
 .timeline{
   min-width:1020px;
   display:grid;
-  grid-template-columns:160px repeat(12, minmax(64px,1fr));
+  grid-template-columns:210px repeat(12, minmax(64px,1fr));
   grid-auto-rows:minmax(52px,auto);
   column-gap:6px;
   row-gap:8px;
@@ -121,8 +121,9 @@ h1{
   padding-bottom:4px;
 }
 .row-label{
-  padding-right:12px;
+  padding-right:18px;
   min-width:0;
+  align-self:center;
 }
 .obj{
   font-size:.9rem;
@@ -169,7 +170,7 @@ h1{
   padding-top:14px;
   border-top:1px solid var(--line);
   display:grid;
-  grid-template-columns:160px repeat(12,minmax(64px,1fr));
+  grid-template-columns:210px repeat(12,minmax(64px,1fr));
   column-gap:6px;
   align-items:start;
 }
@@ -300,7 +301,7 @@ h1{
     <div>
       <div class="eyebrow">Understanding Society Research Data Fellowship — Francesca Tirotto</div>
       <h1>Environmental Lifestyles Across the Life Course: project timeline</h1>
-      <p class="sub">1 October 2026 – 30 September 2027. Click an objective or milestone to see the research question, data, analysis, why the method is useful, and the planned output.</p>
+      <p class="sub">1 October 2026 – 30 September 2027. Click an objective or milestone to see the research question, data, analysis, why each step is needed, and the planned output.</p>
     </div>
     <div class="actions">
       <button class="action" id="showO1" type="button">Main Survey</button>
@@ -329,26 +330,26 @@ h1{
         <div class="month">Apr</div><div class="month">May</div><div class="month">Jun</div>
         <div class="month">Jul</div><div class="month">Aug</div><div class="month">Sep</div>
 
-        <div class="row-label main-row"><div class="obj">O1a<small>Prediction</small></div></div>
-        <button class="bar main main-row" style="grid-column:2/8" data-id="o1a" aria-pressed="false">What predicts environmental behaviour?</button>
+        <div class="row-label main-row" style="grid-column:1;grid-row:3"><div class="obj">O1a<small>Behaviour predictors</small></div></div>
+        <button class="bar main main-row" style="grid-column:2/8;grid-row:3" data-id="o1a" aria-pressed="false">Predictors of environmental behaviour</button>
 
-        <div class="row-label main-row"><div class="obj">O1b<small>Environmental profiles</small></div></div>
-        <button class="bar main alt main-row" style="grid-column:2/8" data-id="o1b" aria-pressed="false">Environmental lifestyle profiles</button>
+        <div class="row-label main-row" style="grid-column:1;grid-row:4"><div class="obj">O1b<small>Environmental profiles</small></div></div>
+        <button class="bar main alt main-row" style="grid-column:2/8;grid-row:4" data-id="o1b" aria-pressed="false">Environmental lifestyle profiles</button>
 
-        <div class="row-label main-row"><div class="obj">O1c<small>Life course</small></div></div>
-        <button class="bar main main-row" style="grid-column:4/8" data-id="o1c" aria-pressed="false">Life-course trajectories</button>
+        <div class="row-label main-row" style="grid-column:1;grid-row:5"><div class="obj">O1c<small>Life-course trajectories</small></div></div>
+        <button class="bar main main-row" style="grid-column:4/8;grid-row:5" data-id="o1c" aria-pressed="false">Life-course trajectory indicators</button>
 
-        <div class="row-label main-row"><div class="obj">O1d<small>Structural profiles</small></div></div>
-        <button class="bar main alt main-row" style="grid-column:5/11" data-id="o1d" aria-pressed="false">Life-course + structural profiles</button>
+        <div class="row-label main-row" style="grid-column:1;grid-row:6"><div class="obj">O1d<small>Combined profiles</small></div></div>
+        <button class="bar main alt main-row" style="grid-column:5/11;grid-row:6" data-id="o1d" aria-pressed="false">Combined life-course &amp; structural profiles</button>
 
-        <div class="row-label main-row"><div class="obj">O1e<small>Associations</small></div></div>
-        <button class="bar main main-row" style="grid-column:8/11" data-id="o1e" aria-pressed="false">Profiles → lifestyles & behaviours</button>
+        <div class="row-label main-row" style="grid-column:1;grid-row:7"><div class="obj">O1e<small>Profile associations</small></div></div>
+        <button class="bar main main-row" style="grid-column:8/11;grid-row:7" data-id="o1e" aria-pressed="false">Links between profiles &amp; behaviours</button>
 
-        <div class="row-label ip-row"><div class="obj">O2a<small>Energy validation</small></div></div>
-        <button class="bar ip ip-row" style="grid-column:8/14" data-id="o2a" aria-pressed="false">Measured electricity & gas use</button>
+        <div class="row-label ip-row" style="grid-column:1;grid-row:8"><div class="obj">O2a<small>Energy-use validation</small></div></div>
+        <button class="bar ip ip-row" style="grid-column:8/14;grid-row:8" data-id="o2a" aria-pressed="false">Validation with measured energy use</button>
 
-        <div class="row-label ip-row"><div class="obj">O2b<small>Sensor validation</small></div></div>
-        <button class="bar ip alt ip-row" style="grid-column:10/14" data-id="o2b" aria-pressed="false">Indoor sensor outcomes</button>
+        <div class="row-label ip-row" style="grid-column:1;grid-row:9"><div class="obj">O2b<small>Sensor-outcome validation</small></div></div>
+        <button class="bar ip alt ip-row" style="grid-column:10/14;grid-row:9" data-id="o2b" aria-pressed="false">Validation with in-home sensor outcomes</button>
       </div>
 
       <div class="milestones">
@@ -381,60 +382,60 @@ h1{
 <script>
 const DATA = {
   o1a:{
-    type:"Objective O1a · Main Survey", title:"Predict current environmental behaviour", period:"1 Oct 2026 – 31 Mar 2027",
+    type:"Objective O1a · Main Survey", title:"Predictors of environmental behaviour", period:"1 Oct 2026 – 31 Mar 2027",
     rq:"Which psychological, sociodemographic, household and structural factors best predict current self-reported environmental behaviours?",
     data:"Understanding Society Main Survey, Wave 15.",
-    analysis:"Use exploratory prediction models such as XGBoost with cross-validation. Use SHAP values to identify the strongest predictors, then examine selected relationships with regression models.",
-    why:"XGBoost can capture complex and non-linear relationships; SHAP helps explain which predictors matter most; regression provides clearer, interpretable estimates.",
-    output:"Initial prediction models by 31 Dec 2026; final analyses included in the Month 6 working report."
+    analysis:"Use exploratory prediction models such as XGBoost with cross-validation. Use SHAP values to identify the strongest predictors, then examine selected relationships with regression models for more interpretable estimates.",
+    why:"This gives a variable-level picture of what matters most before moving to the person-centred profile analyses.",
+    output:"Initial prediction models by 31 Dec 2026, with the prediction analyses finalised by 31 Mar 2027."
   },
   o1b:{
-    type:"Objective O1b · Main Survey", title:"Identify environmental lifestyle profiles", period:"1 Oct 2026 – 31 Mar 2027",
+    type:"Objective O1b · Main Survey", title:"Environmental lifestyle profiles", period:"1 Oct 2026 – 31 Mar 2027",
     rq:"Are there distinct groups of people with different combinations of environmental identity, concern, responsibility, efficacy and perceived constraints?",
     data:"Wave 15 environmental module.",
-    analysis:"Estimate latent class / latent profile models. Compare candidate solutions using fit statistics, entropy, class size and interpretability.",
-    why:"A person-centred approach identifies meaningful combinations of characteristics instead of examining each attitude separately.",
-    output:"Initial profile solution by 31 Dec 2026; final environmental lifestyle profiles by 31 Mar 2027."
+    analysis:"Use finite mixture models, such as latent class or latent profile analysis, to identify groups of people with similar patterns of environmental attitudes and perceptions. Compare candidate solutions using fit statistics, entropy, class size and interpretability.",
+    why:"This moves beyond looking at environmental attitudes one at a time and identifies broader patterns of environmental engagement.",
+    output:"A set of environmental lifestyle profiles. Illustrative examples might include highly engaged and able to act, concerned but constrained, or less environmentally engaged. The actual profiles will be determined by the data."
   },
   o1c:{
-    type:"Objective O1c · Main Survey", title:"Summarise life-course trajectories", period:"Indicative working window: Dec 2026 – 31 Mar 2027",
+    type:"Objective O1c · Main Survey", title:"Life-course trajectories", period:"Indicative working window: Dec 2026 – 31 Mar 2027",
     rq:"What longer-term pathways characterise people’s circumstances across work, income, housing, family, mobility, health and wellbeing?",
-    data:"Main Survey Waves 1–14, plus earlier environmental attitudes and behaviours where available.",
-    analysis:"Use growth models for continuous repeated measures and stability/change categories, transition indicators or sequence-type summaries for categorical domains.",
-    why:"This captures longer-term patterns, stability and change rather than relying only on current circumstances.",
-    output:"Life-course trajectory measures completed and described in the Month 6 working report."
+    data:"Main Survey Waves 1–14, together with earlier environmental attitudes and behaviours where available.",
+    analysis:"Create person-level indicators that summarise each individual’s history across life domains. For continuous repeated measures, growth models can capture level and change over time—for example, a typical income level and an income slope. For categorical domains, use indicators of stability, change or important transitions—for example, stable employment, renter-to-owner transitions or number of residential moves.",
+    why:"The aim is not to create profiles yet. It is to reduce many repeated observations into a smaller set of meaningful indicators describing each person’s life-course history.",
+    output:"A set of life-course trajectory indicators for the next stage of analysis—for example, income level and slope, wellbeing trajectory, employment stability, tenure transitions, residential mobility, family transitions and health trajectory."
   },
   o1d:{
-    type:"Objective O1d · Main Survey", title:"Create life-course and structural profiles", period:"Indicative working window: Jan – 30 Jun 2027",
-    rq:"Can longer-term trajectories and current socioeconomic, household, structural and place-based conditions be combined into meaningful profiles?",
-    data:"Waves 1–15: trajectory indicators from O1c plus current sociodemographic, household, structural and place-based indicators.",
-    analysis:"Use finite mixture / latent class models appropriate to the indicator types.",
-    why:"This captures how multiple life-course and structural conditions cluster together, rather than treating each constraint separately.",
-    output:"Initial profile solution by 31 Mar 2027; final Main Survey life-course/structural profile solution by 30 Jun 2027."
+    type:"Objective O1d · Main Survey", title:"Combined life-course & structural profiles", period:"Indicative working window: Jan – 30 Jun 2027",
+    rq:"What distinct groups emerge when people’s longer-term life-course pathways are considered together with their current social, household and structural circumstances?",
+    data:"Trajectory indicators from O1c combined with current Wave 15 sociodemographic, household and structural conditions, plus place-based indicators where feasible. Current indicators may include age, education, employment or socioeconomic position, household composition, tenure, housing conditions, deprivation, air pollution, green space and public transport access.",
+    analysis:"Combine the life-course summaries from O1c with current circumstances and use finite mixture models, such as latent class or latent profile models depending on the indicator types, to identify groups with similar combinations of past trajectories and present conditions.",
+    why:"People who look similar today may have reached the same situation through very different pathways. This step captures both where people are now and how they got there.",
+    output:"A set of life-course and structural profiles. Illustrative examples might include stable advantaged owner-occupiers, younger mobile renters, or households facing greater socioeconomic and housing constraints. The actual profiles will emerge from the data."
   },
   o1e:{
-    type:"Objective O1e · Main Survey", title:"Link structural profiles to environmental lifestyles and behaviours", period:"Indicative working window: 1 Apr – 30 Jun 2027",
-    rq:"How are life-course and structural profiles related to environmental lifestyle profiles and self-reported environmental behaviours?",
-    data:"Main Survey profile memberships and environmental behavioural outcomes.",
-    analysis:"Use multinomial logistic regression for environmental lifestyle profile membership, plus regression models appropriate to each behavioural outcome.",
-    why:"These models provide clear, interpretable estimates of how different life-course/structural profiles are associated with environmental lifestyles and actions.",
-    output:"Association models completed by 30 Jun 2027 and incorporated into the Main Survey paper."
+    type:"Objective O1e · Main Survey", title:"Links between profiles and behaviours", period:"Indicative working window: 1 Apr – 30 Jun 2027",
+    rq:"Are different life-course and structural profiles associated with different environmental lifestyle profiles and self-reported environmental behaviours?",
+    data:"Life-course and structural profiles from O1d, environmental lifestyle profiles from O1b, and Wave 15 environmental behavioural outcomes.",
+    analysis:"Use multinomial logistic regression for environmental lifestyle profile membership and regression models appropriate to each behavioural outcome.",
+    why:"This brings the two Main Survey profile analyses together and tests whether different life histories and current structural circumstances are linked to different ways of thinking about and acting on environmental issues.",
+    output:"Models describing the relationships between life-course and structural profiles, environmental lifestyle profiles and self-reported environmental behaviours."
   },
   o2a:{
-    type:"Objective O2a · Innovation Panel", title:"Validate profiles using measured electricity and gas use", period:"Indicative working window: 1 Apr – 30 Sep 2027",
-    rq:"Are the same life-course and structural profiles associated with objectively measured household electricity and gas use?",
-    data:"Innovation Panel Waves 3–16 for equivalent prior life-course and structural indicators, with IP17 used for measured electricity and gas outcomes.",
-    analysis:"Apply the Main Survey life-course/structural profile structure to the Innovation Panel, then model measured energy use. Use spline terms or GAMs where non-linearity and daily/seasonal patterns need to be captured.",
-    why:"This provides external validation using objective household outcomes rather than self-report alone.",
-    output:"Initial smart-meter analyses by 30 Jun 2027; final external validation analyses and draft manuscript/working paper by 30 Sep 2027."
+    type:"Objective O2a · Innovation Panel", title:"Validation with measured energy use", period:"Indicative working window: 1 Apr – 30 Sep 2027",
+    rq:"Can the Main Survey life-course and structural profile structure be reproduced in the Innovation Panel, and are those profiles associated with objectively measured household electricity and gas use?",
+    data:"Innovation Panel Waves 3–16 for comparable prior life-course and structural indicators, with IP17 measured electricity and gas outcomes.",
+    analysis:"Construct comparable indicators in the Innovation Panel, apply the Main Survey life-course and structural profile structure, and then test whether profile membership is associated with measured electricity and gas use. Use spline terms or GAMs where non-linearity or daily and seasonal patterns need to be captured.",
+    why:"This provides external validation in an independent sample and tests whether the profiles are meaningful for objective household energy outcomes rather than self-report alone.",
+    output:"Initial IP17 energy analyses by 30 Jun 2027 and final external-validation analyses by 30 Sep 2027."
   },
   o2b:{
-    type:"Objective O2b · Innovation Panel", title:"Validate profiles using in-home sensor outcomes", period:"Indicative working window: Jun – 30 Sep 2027",
-    rq:"Are life-course and structural profiles associated with objectively measured indoor environmental conditions?",
-    data:"IP17 temperature, humidity, particulate matter (PM), CO₂ and VOC sensor data, where available.",
-    analysis:"Use regression models and GAMs to compare profiles and capture non-linear daily and seasonal patterns in indoor conditions.",
-    why:"Sensor data provide an objective view of the conditions households actually experience, while GAMs flexibly model temporal patterns.",
-    output:"Final sensor analyses included in the Innovation Panel manuscript / working paper by 30 Sep 2027."
+    type:"Objective O2b · Innovation Panel", title:"Validation with in-home sensor outcomes", period:"Indicative working window: Jun – 30 Sep 2027",
+    rq:"Are the same life-course and structural profiles associated with differences in objectively measured indoor environmental conditions?",
+    data:"IP17 in-home sensor measures, including temperature, humidity, particulate matter (PM), CO₂ and VOCs, where available.",
+    analysis:"Examine how indoor conditions differ across the life-course and structural profiles. Use regression models, spline terms or GAMs where needed to capture non-linear, daily or seasonal patterns.",
+    why:"The sensor data provide another objective test of whether the profile structure is associated with the conditions households actually experience.",
+    output:"Exploratory external validation using in-home sensor outcomes, contributing to the Innovation Panel manuscript or working paper."
   },
   start:{
     type:"Programme milestone", title:"Fellowship starts", period:"1 October 2026",
